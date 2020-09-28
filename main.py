@@ -1,6 +1,5 @@
 import mysql.connector
 from random import choice
-from time import sleep
 
 
 class GeradorSenha:
@@ -30,44 +29,25 @@ class GeradorSenha:
         # Valida se já existe esse Login e senha no banco de Dados.
         self.cursor.execute("""SELECT login, password 
                             FROM usuario
-                            WHERE login = '{}' AND password = '{}'""".format(nome, senha))
+                            WHERE login = '{}' AND password = '{}'""".format(nome, '12345678'))
 
         select = self.cursor.fetchall()
-        for c in select:
-            # Caso já exista no Banco de Dados.
-            print("Login e Senha já cadastrado no sistema")
-            self.Criar_Login()
-        else:
-            # Insere no Banco de Dados.
-            self.cursor.execute("INSERT INTO usuario VALUES(DEFAULT, '{}', '{}')".format(nome, senha))
-            sleep(2)
-            print("\nCadastrado com sucesso!")
-            sleep(2)
-            self.Menu()
+        """ Criar validação aqui """
 
     def Logar(self):
-        # Inserir nome + senha.
-        # Validar entrada.
-        # Emitir Mensagem.
         print('=' * 30)
         print("{:^30}".format("LOGAR"))
         nome = str(input("Nome: "))
         senha = str(input("Senha: "))
         print('=' * 30)
 
+        # Valida se já existe esse Login e senha no banco de Dados.
         self.cursor.execute("""SELECT login, password 
                                     FROM usuario
                                     WHERE login = '{}' AND password = '{}'""".format(nome, senha))
 
         select = self.cursor.fetchall()
-
-        for c in select:
-            # Caso já exista no Banco de Dados.
-            print("Bem Vindo {}".format(nome))
-        else:
-            # Insere no Banco de Dados.
-            print('Login ou senha inválido. Tente Novamente')
-            self.Logar()
+        """ Criar validação aqui """
 
     def Menu(self):
         # Mostra o Menu.
