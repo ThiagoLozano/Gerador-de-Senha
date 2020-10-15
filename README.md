@@ -10,52 +10,60 @@ validação, estando correto, retorná uma mensagem de Bem vindo, caso contrári
 # Tecnologias Utilizadas
 * **_PyCharm;_**
 * **_Python 3;_**
+* **_MySQL;_**
+* **_WampServer;_**
 
 # Exemplo de Uso
 ### Classe
 ```
 class GeradorSenha:
     def __init__(self):
-        # Cria a conexão com o BD.
-        self.myBD = mysql.connector.connect(host="localhost",
-                                            user="root",
-                                            password="",
-                                            database="login_python")
+        # Cria a conexão com o Banco de Dados.
+        self.mybd = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='',
+            database='login_python'
+        )
+        # Cria um cursor.
+        self.my_cursor = self.mybd.cursor()
+        self.senha = ''
+```
+![Classe](https://github.com/ThiagoLozano/Gerador-de-Senha/blob/master/Screenshot/Classe.PNG)
 
-        # Cria um Cursor.
-        self.cursor = self.myBD.cursor()
-        self.cursor.execute('USE login_python')
+### Função Gerar Senha
 ```
-![Classe]()
+    def Gerar_senha(self):
+        valores = 'ABCDEFGHIJKLMOPQHRSTUVWYZ1234567890'
+        tamanho_senha = 8
+        self.senha = ''
+        for c in range(tamanho_senha):
+            self.senha += choice(valores)
+        print("Senha Gerada: {}".format(self.senha))
+```
+![Gerar Senha](https://github.com/ThiagoLozano/Gerador-de-Senha/blob/master/Screenshot/Gerar_Senha.PNG)
 
-### Função Menu
+### Banco de Dados
 ```
-    def Menu(self):
-        # Mostra o Menu.
-        print('=' * 30)
-        print('''Bem Vindo ao Login Python
-1) Logar
-2) Criar Login
-3) Sair''')
-        print('=' * 30)
-        # Valida a entrada de escolha.
-        while True:
-            try:
-                escolha = int(input('Escolha: '))
-                if escolha == 1:
-                    self.Logar()
-                    break
-                elif escolha == 2:
-                    self.Criar_Login()
-                    break
-                elif escolha == 3:
-                    break
-                else:
-                    print("Entrada Inválida. Tente Novamente")
-            except ValueError:
-                print('Tipo de Dado Inválido. Tente Novamente\n')
+-- Cria o Banco de Dados.
+CREATE DATABASE IF NOT EXISTS login_python;
+USE login_python;
+
+-- Cria a Tabela 'usuarios'.
+CREATE TABLE IF NOT EXISTS usuarios(
+id INT AUTO_INCREMENT,
+nome CHAR(10) NOT NULL,
+senha CHAR(8) NOT NULL,
+PRIMARY KEY(id)
+);
+
+-- Insere um valor de exemplo.
+INSERT INTO usuarios VALUES(DEFAULT, 'ADM', '12345678');
+
+-- Retorna todos os registros da tabela 'usuarios';
+SELECT * FROM usuarios;
 ```
-![Menu]()
+![Banco de Dados](https://github.com/ThiagoLozano/Gerador-de-Senha/blob/master/Screenshot/BD.PNG)
 
 # Bibliotecas e Configurações
 
@@ -66,9 +74,4 @@ import mysql.connector
 from random import choice
 from time import sleep
 ```
-![Biblioteca]()
-
-### Configurações
-
-```
-```
+![Biblioteca](https://github.com/ThiagoLozano/Gerador-de-Senha/blob/master/Screenshot/Bibliotecas.PNG)
